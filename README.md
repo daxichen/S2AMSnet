@@ -29,5 +29,5 @@ Cross-scene hyperspectral image (HSI) classification has received widespread att
 ```
 # Usage:
 ```
-python3 main.py --source_name Houston13 --target_name Houston18 --re_ratio 5 --training_sample_ratio 0.8
+python main.py --source_name Houston13 --target_name Houston18 --patch_size 13 --training_sample_ratio 0.8
 ```
