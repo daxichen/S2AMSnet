@@ -31,6 +31,8 @@ Please cite us if our project is helpful to you!
 4. cupy-cuda110==8.5.0
 ```
 # Dataset:
+The dataset can be downloaded from here (https://github.com/YuxiangZhang-BIT/Data-CSHSI),
+
 The dataset directory should look like this:
 ```
 datasets
