@@ -30,6 +30,17 @@ Please cite us if our project is helpful to you!
 3. mmcv==1.3.0
 4. cupy-cuda110==8.5.0
 ```
+# Dataset:
+The dataset directory should look like this:
+```
+datasets
+  Houston
+  ├── Houston13.mat
+  ├── Houston13_7gt.mat
+  ├── Houston18.mat
+  └── Houston18_7gt.mat
+```
+
 # Usage:
 Houston datasets:
 ```
