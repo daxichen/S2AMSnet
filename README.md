@@ -26,3 +26,5 @@ torch==1.11.0+cu110
 python==3.8.3
 mmcv==1.3.0
 cupy-cuda110==8.5.0
+```
+
