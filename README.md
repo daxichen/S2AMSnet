@@ -28,7 +28,7 @@ Cross-scene hyperspectral image (HSI) classification has received widespread att
 4. cupy-cuda110==8.5.0
 ```
 # Usage:
-Houston datasets
+Houston datasets:
 ```
 python main.py --source_name Houston13 --target_name Houston18 --patch_size 13 --training_sample_ratio 0.8
 ```
