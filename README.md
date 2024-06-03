@@ -1,4 +1,4 @@
 # S2AMSnet
-# Spectral-Spatial Adversarial Multi-Domain Synthesis Network for Cross-Scene Hyperspectral Image Classification
+# Spectral–Spatial Adversarial Multidomain Synthesis Network for Cross-Scene Hyperspectral Image Classification
 
-When the paper is accepted, the code will be released.
+Paper web page:[Spectral–Spatial Adversarial Multidomain Synthesis Network for Cross-Scene Hyperspectral Image Classification](https://ieeexplore.ieee.org/document/10531019).
