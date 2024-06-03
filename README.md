@@ -20,3 +20,9 @@ Cross-scene hyperspectral image (HSI) classification has received widespread att
       keywords={Semantics;Training;Data models;Mutual information;Hyperspectral imaging;Task analysis;Solid modeling;Cross-scene classification;hyperspectral images (HSIs);mutual information (MI) regularization;single-source domain (SD) generalization},
       doi={10.1109/TGRS.2024.3401231}}
 
+# Requirements：
+```
+torch==1.11.0+cu110
+python==3.8.3
+mmcv==1.3.0
+cupy-cuda110==8.5.0
