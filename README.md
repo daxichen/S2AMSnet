@@ -22,8 +22,11 @@ Cross-scene hyperspectral image (HSI) classification has received widespread att
 
 # Requirements：
 ```
-`torch==1.11.0+cu110
-`python==3.8.3
-`mmcv==1.3.0
-`cupy-cuda110==8.5.0
+1. torch==1.11.0+cu113
+2. python==3.8.3
+3. mmcv==1.3.0
+4. cupy-cuda110==8.5.0
+
+# Usage:
 ```
+python3 main.py --source_name Houston13 --target_name Houston18 --re_ratio 5 --training_sample_ratio 0.8
