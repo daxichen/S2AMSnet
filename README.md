@@ -19,7 +19,6 @@ Please cite us if our project is helpful to you!
   volume={62},
   number={},
   pages={1-16},
-  keywords={Semantics;Training;Data models;Mutual information;Hyperspectral imaging;Task analysis;Solid modeling;Cross-scene classification;hyperspectral images (HSIs);mutual information (MI) regularization;single-source domain (SD) generalization},
   doi={10.1109/TGRS.2024.3401231}}
 ```
 
