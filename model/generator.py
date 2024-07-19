@@ -146,14 +146,17 @@ class ResnetBlock(nn.Module):
         return out
 
 
-class SpectralNet(nn.Module):
+class GNet1(nn.Module):
     def __init__(self, args):
-        super(SpectralNet, self).__init__()
+        super(GNet1, self).__init__()
         ch = args.GIN_ch
         self.Spectral_Weight_11 = Spectral_Weight(args.n_bands, ch, kernel_size=3, stride=1, padding=1)
+        self.Spatial_Weight_11 = Spatial_Weight(args.n_bands, ch, kernel_size=3, stride=1, padding=1)
         self.AdaIN1 = AdaIN(2,ch) if args.noise else nn.Identity()
         self.Spectral_Weight_12 = Spectral_Weight(ch, ch, kernel_size=3, stride=1, padding=1)
+        self.Spatial_Weight_12 = Spatial_Weight(ch, ch, kernel_size=3, stride=1, padding=1)
         self.Spectral_Weight_13 = Spectral_Weight(ch, ch, kernel_size=3, stride=1, padding=1)
+        self.Spatial_Weight_13 = Spatial_Weight(ch, ch, kernel_size=3, stride=1, padding=1)
         self.generate1 = nn.Conv2d(ch, args.n_bands, 3, padding=1)
         self.activate1 = nn.LeakyReLU()
         self.bn1 = nn.BatchNorm2d(ch)
@@ -173,24 +176,27 @@ class SpectralNet(nn.Module):
                 m.weight.data = (m.weight.data - weight.mean())/weight.std()
 
     def forward(self, x):
-        out1 = self.Spectral_Weight_11(x)
+        out1 = self.Spectral_Weight_11(x) + self.Spatial_Weight_11(x)
         out1 = self.activate1(self.bn1(self.AdaIN1(out1)))
-        out1 = self.Spectral_Weight_12(out1)
+        out1 = self.Spectral_Weight_12(out1) + self.Spatial_Weight_12(out1)
         out1 = self.activate1(self.bn1(self.AdaIN1(out1)))
-        out1 = self.Spectral_Weight_13(out1)
+        out1 = self.Spectral_Weight_13(out1) + self.Spatial_Weight_13(out1)
         out1 = self.activate1(self.bn1(self.AdaIN1(out1)))
         out1 = self.generate1(out1)
         weight_alpha1 = F.softmax(self.Weight_Alpha1, dim=0)
         out1 = weight_alpha1[0] * x + weight_alpha1[1] * out1
         return out1
 
-class SpatialNet(nn.Module):
+class GNet2(nn.Module):
     def __init__(self, args):
-        super(SpatialNet, self).__init__()
+        super(GNet2, self).__init__()
         ch = args.GIN_ch
+        self.Spectral_Weight_21 = Spectral_Weight(args.n_bands, ch, kernel_size=3, stride=1, padding=1)
         self.Spatial_Weight_21 = Spatial_Weight(args.n_bands, ch, kernel_size=3, stride=1, padding=1)
         self.AdaIN2 = AdaIN(2, ch) if args.noise else nn.Identity()
+        self.Spectral_Weight_22 = Spectral_Weight(ch, ch, kernel_size=3, stride=1, padding=1)
         self.Spatial_Weight_22 = Spatial_Weight(ch, ch, kernel_size=3, stride=1, padding=1)
+        self.Spectral_Weight_23 = Spectral_Weight(ch, ch, kernel_size=3, stride=1, padding=1)
         self.Spatial_Weight_23 = Spatial_Weight(ch, ch, kernel_size=3, stride=1, padding=1)
         self.generate2 = nn.Conv2d(ch, args.n_bands, 3, padding=1)
         self.activate2 = nn.LeakyReLU()
@@ -211,11 +217,11 @@ class SpatialNet(nn.Module):
                 m.weight.data = (m.weight.data - weight.mean())/weight.std()
 
     def forward(self, x):
-        out2 = self.Spatial_Weight_21(x)
+        out2 = self.Spectral_Weight_21(x) + self.Spatial_Weight_21(x)
         out2 = self.activate2(self.bn2(self.AdaIN2(out2)))
-        out2 = self.Spatial_Weight_22(out2)
+        out2 = self.Spectral_Weight_22(out2) + self.Spatial_Weight_22(out2)
         out2 = self.activate2(self.bn2(self.AdaIN2(out2)))
-        out2 = self.Spatial_Weight_23(out2)
+        out2 = self.Spectral_Weight_23(out2) + self.Spatial_Weight_23(out2)
         out2 = self.activate2(self.bn2(self.AdaIN2(out2)))
         out2 = self.generate2(out2)
         weight_alpha2 = F.softmax(self.Weight_Alpha2, dim=0)
@@ -227,8 +233,8 @@ class SSDGnet(nn.Module):
     def __init__(self, args):
         super(SSDGnet, self).__init__()
 
-        self.Net1 = SpectralNet(args)
-        self.Net2 = SpatialNet(args)
+        self.Net1 = GNet1(args)
+        self.Net2 = GNet2(args)
 
     def __initialize_weights(self):
         for m in self.modules():
